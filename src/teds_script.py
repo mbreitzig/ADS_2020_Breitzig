@@ -37,6 +37,8 @@ from sklearn.model_selection import (RandomizedSearchCV)
 from sklearn.metrics import mean_absolute_error
 from sklearn import metrics
 from sklearn.metrics import plot_confusion_matrix
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder
     
 # Create and configure logger.
 logging.basicConfig(format='%(asctime)s %(message)',
@@ -145,8 +147,7 @@ def drop_data(TEDS_A_merged):
         A truncated data frame."""
         
     print("""You now have the option to keep specific variables from the data (type 'NA' to skip). 
-Please use the TEDS-A codebook or the list generated to enter the names of variables you wish to keep.) 
-Enter the column/variable names separated by a space and not a comma, example: CASEID EDUC MARSTAT\n""")
+Please use the TEDS-A codebook or the list generated to enter the names of variables you wish to keep.)\n""")
     
     print("Currently available columns: ", list(TEDS_A_merged.columns))
     print("\n")
@@ -182,7 +183,6 @@ def user_interactions(TEDS_A_Imputed):
         
     print("""You now have the option to generate polynomial features for variables of interest (enter NA to skip). 
 Please use the TEDS-A codebook or the list generated to enter the names of variables of interest.\n 
-Enter the column/variable names separated by a space and not a comma, example: CASEID EDUC MARSTAT\n
 Currently available columns: """, list(TEDS_A_Imputed.columns))
  
     print("\n")
@@ -354,15 +354,14 @@ def combine_levels(user_target, TEDS_A_Imputed):
         A target variable (in the data frame) with collapsed levels."""
         
     print("You now have the option to collapse your target variable levels (type 'NA' to skip).") 
-    print("Please enter up to three categories for your new level recoding. The reference is the first entry.") 
-    
+    print("Please enter up to three categories for your new level recoding. The reference is the first entry.\n") 
     print("Currently available levels in {}: {}".format(user_target, list(TEDS_A_Imputed[user_target].values.unique())))
     print("\n")
     
     user_combined1 = input()
 
     if user_combined1 == "NA" or user_combined1 == "na":
-        return(print("No columns will be dropped."))
+        return(print("No columns will be collapsed."))
     else:
         user_combined2 = input()
         user_combined3 = input()
@@ -391,7 +390,7 @@ def combine_levels(user_target, TEDS_A_Imputed):
             TEDS_A_Imputed[user_target] = pd.DataFrame(TEDS_A_Imputed[user_target].map(collapse))
             return(TEDS_A_Imputed, user_combined1, user_combined2, user_combined3)
   
-def cleaning_pt2(TEDS_A_Imputed, TEDS_Af, col_list_cat, col_list_cat_f, col_list_ord):    
+def cleaning_pt2(TEDS_A_Imputed, TEDS_Af, col_list_cat, col_list_cat_f, col_list_ord):
     enc = preprocessing.OrdinalEncoder()
     TEDS_Aic = TEDS_A_Imputed
     TEDS_Aic['CASEID'] = TEDS_A_Imputed['CASEID']
@@ -440,13 +439,13 @@ def user_split(TEDS_Aicf, user_target):
 
 def model_building(TEDS_X_train,  TEDS_Y_train, TEDS_X_test):
     # Default hyperparameters (baseline performance)
-    # Import the random forest classifier
+    # Import the random forest classifier 
     rfc = ensemble.RandomForestClassifier()
-    analysis=Pipeline(steps=([('Base', ensemble.RandomForestClassifier())]))
+    analysis=Pipeline(steps=([('base', ensemble.RandomForestClassifier())]))
     
     analysis.fit(TEDS_X_train, TEDS_Y_train.values.ravel())
     Y_pred = analysis.predict(TEDS_X_test)
-    
+
     # Tune the hyperparameters for the random forest classifier
     param_dist = {'n_estimators': list(np.linspace(100, 200, 10, dtype = int)),
                   'max_depth': [int(x) for x in np.linspace(10, 110, num = 11)],
