@@ -11,9 +11,7 @@ Project Organization
     ├── LICENSE
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
-    ├── data
-    │   ├── interim        <- Intermediate data that has been transformed (raw via website, see notebook).
-    │   └── processed      <- The final, canonical data sets for modeling.
+    ├── data			   <- Intermediate and processed data (raw via website, see notebook)
     │
     ├── models             <- Trained and serialized models, model predictions, or model summaries
     │
