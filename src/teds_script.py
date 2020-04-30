@@ -37,7 +37,6 @@ from sklearn.model_selection import (RandomizedSearchCV)
 from sklearn.metrics import mean_absolute_error
 from sklearn import metrics
 from sklearn.metrics import plot_confusion_matrix
-from sklearn.compose import ColumnTransformer
     
 # Create and configure logger.
 logging.basicConfig(format='%(asctime)s %(message)',
