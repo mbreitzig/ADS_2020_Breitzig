@@ -88,9 +88,9 @@ def EDA(TEDS_A_merged):
         Tables and plots."""
     
     # Query the user for the variables of interest
-    print("""You now have the option to explore some descritive info and associations.
-    Please enter the Y (dependent) and X(s) of interest (a smaller number will be easier to examine).
-    Enter the column/variable names separated by a space and not a comma, example: EDUC MARSTAT\n""")
+    print("You now have the option to explore some descritive info and associations.")
+    print("Please enter the Y (dependent) and X(s) of interest (a smaller number will be easier to examine).")
+    print("Enter the column/variable names separated by a space and not a comma, example: EDUC MARSTAT\n")
     print("Enter the Y variable\n")
     user_target = input()
     print("\nEnter the X variable(s)\n")
@@ -159,7 +159,6 @@ Enter the column/variable names separated by a space and not a comma, example: C
         keep_list = user_list.split(" ")
         TEDS_A = TEDS_A_merged.filter(keep_list)
         TEDS_A.replace(-9, np.nan, inplace=True)
-        print("The following columns were kept: ", keep_list)
     return(TEDS_A)
 
 def imputation(data_frame):
@@ -200,7 +199,6 @@ Currently available columns: """, list(TEDS_A_Imputed.columns))
         TEDS_Af = pd.DataFrame(TEDS_Af)
         TEDS_Af.columns = poly.get_feature_names(featuregen.columns)
         TEDS_Af = TEDS_Af.drop(feature_list, axis=1)
-        print("The following columns were used to generate 2nd degree polynomial (interaction) features: ", feature_list)
         return(TEDS_Af)
     
 # Note that there are some missing states based on reporting and supression
@@ -352,9 +350,8 @@ def combine_levels(user_target, TEDS_A_Imputed):
     Returns
         A target variable (in the data frame) with collapsed levels."""
         
-    print("""You now have the option to collapse your target variable levels (type 'NA' to skip). 
-Please enter up to three categories for your new level recoding. The reference is the first entry.) 
-Example: Reference\nAlcohol abuse\nDepressive disorders""")
+    print("You now have the option to collapse your target variable levels (type 'NA' to skip).") 
+    print("Please enter up to three categories for your new level recoding. The reference is the first entry.") 
     
     print("Currently available levels in {}: {}".format(user_target, list(TEDS_A_Imputed[user_target].values.unique())))
     print("\n")
