@@ -165,11 +165,11 @@ def imputation(data_frame):
     
     Returns
         A data frame with imputed values."""
-    
-    imputer = IterativeImputer(max_iter=5, random_state=0)
-    # Note that the imputation is set to round to 0 since the data is categorical
-    TEDS_A_Imputed = np.round(imputer.fit_transform(data_frame), 0)
+
+    imputation = Pipeline([("impu", IterativeImputer(max_iter=5, random_state=0))])
+    TEDS_A_Imputed = imputation.fit_transform(data_frame, y='none')
     TEDS_A_Imputed = pd.DataFrame(TEDS_A_Imputed)
+    TEDS_A_Imputed = np.round(TEDS_A_Imputed, 0)
     TEDS_A_Imputed.columns = list(data_frame.columns)
     return(TEDS_A_Imputed)
 
@@ -193,8 +193,12 @@ Currently available columns: """, list(TEDS_A_Imputed.columns))
     else:
         feature_list = user_list2.split(" ")
         featuregen = TEDS_A_Imputed[feature_list]
+        
+        poly_features = Pipeline([("features", PolynomialFeatures(degree=2, interaction_only=True, include_bias=False))])
+        
         poly = PolynomialFeatures(degree=2, interaction_only=True, include_bias=False)
-        TEDS_Af = poly.fit_transform(featuregen)
+        poly.fit_transform(featuregen)
+        TEDS_Af = poly_features.fit_transform(featuregen, y='none')
         TEDS_Af = pd.DataFrame(TEDS_Af)
         TEDS_Af.columns = poly.get_feature_names(featuregen.columns)
         TEDS_Af = TEDS_Af.drop(feature_list, axis=1)
