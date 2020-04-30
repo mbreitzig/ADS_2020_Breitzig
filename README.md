@@ -1,7 +1,6 @@
-A PYTHON WORKFLOW FOR ANALYZING TEDS-A DATA
-A final project for Applied Data Science
+A python workflow for analyzing TEDS-A data
 ==============================
-This repository was created for the "Applied Data Science" (ADS) course at Washington University.
+This repository and workflow were created as a final project submission for the "Applied Data Science" (ADS) course at Washington University.
 
 Author: Mason T. Breitzig
 
