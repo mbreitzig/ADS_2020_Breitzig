@@ -11,6 +11,7 @@ Project Organization
     ├── LICENSE
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
+	├── TEDS-A-codebook.pdf      <- The codebook for TEDS-A 2015-2017, useful for the project.
     ├── data			   <- Intermediate and processed data (raw via website, see notebook)
     │
     ├── models             <- Trained and serialized models, model predictions, or model summaries
